@@ -18,9 +18,9 @@ class AuthController extends Controller
      */
     public function index()
     {
-        // if (Auth::check()) {
-        //     return redirect()->route('home');
-        // }
+        if (Auth::check()) {
+            return redirect('home');
+        }
         return view('auth.login');
     }  
       
@@ -31,9 +31,9 @@ class AuthController extends Controller
      */
     public function registration()
     {
-        // if (Auth::check()) {
-        //     return redirect()->route('home');
-        // }
+        if (Auth::check()) {
+            return redirect('home');
+        }
         return view('auth.registration');
     }
       
@@ -51,7 +51,7 @@ class AuthController extends Controller
    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
+            return redirect()->intended('home')
                         ->withSuccess('You have Successfully loggedin');
         }
   
@@ -74,7 +74,7 @@ class AuthController extends Controller
         $data = $request->all();
         $check = $this->create($data);
          
-        return redirect("dashboard")->withSuccess('Great! You have Successfully loggedin');
+        return redirect("home")->withSuccess('Great! You have Successfully loggedin');
     }
     
     /**
@@ -82,15 +82,60 @@ class AuthController extends Controller
      *
      * @return response()
      */
-    public function dashboard()
+    public function home()
     {
         if(Auth::check()){
-            return view('dashboard');
+            return view('home');
+        }
+  
+        return redirect("login")->withSuccess('Opps! You do not have access');
+    }
+
+    public function about()
+    {
+        if(Auth::check()){
+            return view('about');
         }
   
         return redirect("login")->withSuccess('Opps! You do not have access');
     }
     
+    public function contact()
+    {
+        if(Auth::check()){
+            return view('contact');
+        }
+  
+        return redirect("login")->withSuccess('Opps! You do not have access');
+    }
+
+    public function portfolio()
+    {
+        if(Auth::check()){
+            return view('portfolio');
+        }
+  
+        return redirect("login")->withSuccess('Opps! You do not have access');
+    }
+
+    public function services()
+    {
+        if(Auth::check()){
+            return view('services');
+        }
+  
+        return redirect("login")->withSuccess('Opps! You do not have access');
+    }
+
+
+    public function team()
+    {
+        if(Auth::check()){
+            return view('team');
+        }
+  
+        return redirect("login")->withSuccess('Opps! You do not have access');
+    }
     /**
      * Write code on Method
      *
@@ -114,6 +159,6 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();
   
-        return Redirect('login');
+        return Redirect('/');
     }
 }
